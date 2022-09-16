@@ -14,3 +14,6 @@ This code currently employs polling, users who wants to do webhooks can refer to
   
 **Databases**\
 Currently no databases are being deployed in the code. But, this might change depending on future developemnts of the bot
+
+# Docker image
+You could find completle unoptimal docker image here: https://hub.docker.com/r/cageyv/telegram-translator
