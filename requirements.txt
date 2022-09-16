@@ -3,7 +3,7 @@ cffi==1.13.2
 chardet==3.0.4
 cryptography==3.3.2
 future==0.18.2
-googletrans==2.4.0
+googletrans==4.0.0rc1
 idna==2.8
 pycparser==2.19
 python-telegram-bot==12.2.0

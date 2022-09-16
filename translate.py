@@ -1,3 +1,4 @@
+import os
 import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters 
 import googletrans
@@ -7,8 +8,9 @@ translator = Translator()
 
 user_preference = {}
 
-all_lang = googletrans.LANGUAGES
-langcodes = dict(map(reversed,all_lang.items()))
+# all_lang = googletrans.LANGUAGES
+# langcodes = dict(map(reversed,all_lang.items()))
+langcodes = googletrans.LANGUAGES
 
 def start(update, context):
   message = "WELCOME " + update.message.from_user.first_name
@@ -74,8 +76,9 @@ def check_language(update,context):
       context.bot.send_message(chat_id = update.effective_chat.id, text = send_message)
 
 def main():
-  bot = telegram.Bot(token=<token>)
-  updater = Updater(token=<token>, use_context = True)
+  bot_token = os.getenv('BOT_TOKEN')
+  bot = telegram.Bot(token=bot_token)
+  updater = Updater(token=bot_token, use_context = True)
   dispatcher = updater.dispatcher
   print('bot started')
   dispatcher.add_handler(CommandHandler("start", start, pass_args = True))
