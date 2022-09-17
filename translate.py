@@ -22,16 +22,16 @@ langcodes = googletrans.LANGUAGES
 
 def start(update, context):
   message = "Welcome " + update.message.from_user.first_name
-  context.bot.send_message(chat_id=update.effective_chat.id, text=message)
+  context.bot.send_message(chat_id=update.effective_chat.id, text=message, reply_to_message_id=update.message.message_id)
 
 def check_lang(update,context):
   user = update.message.from_user.username
   try:
     send_message = "Language is set to " + user_preference[user].upper()
-    context.bot.send_message(chat_id = update.effective_chat.id, text = send_message)
+    context.bot.send_message(chat_id = update.effective_chat.id, text = send_message, reply_to_message_id=update.message.message_id)
   except:
     send_message = "No language has been set yet"
-    context.bot.send_message(chat_id = update.effective_chat.id, text = send_message)
+    context.bot.send_message(chat_id = update.effective_chat.id, text = send_message, reply_to_message_id=update.message.message_id)
 
 def set_preferences(update,context):
   user = update.message.from_user.username
@@ -39,33 +39,33 @@ def set_preferences(update,context):
   msg = msg.split(' ')[1:].strip()
   msg = msg.lower()
   if len(msg) == 0:
-    context.bot.send_message(chat_id = update.effective_chat.id, text = "No valid placeholders. Please run the command again!!")
+    context.bot.send_message(chat_id = update.effective_chat.id, text = "No valid placeholders. Please run the command again!!", reply_to_message_id=update.message.message_id)
   elif msg not in langcodes.keys():
-    context.bot.send_message(chat_id=update.effective_chat.id, text = "Language code not supported by Google Translate")
+    context.bot.send_message(chat_id=update.effective_chat.id, text = "Language code not supported by Google Translate", reply_to_message_id=update.message.message_id)
   else:
     try:
       user_preference[user] = msg
     except:
       user_preference[user] = msg
     text_message = str(msg.upper()) + " set for " + update.message.from_user.first_name
-    context.bot.send_message(chat_id=update.effective_chat.id, text = text_message)
+    context.bot.send_message(chat_id=update.effective_chat.id, text = text_message, reply_to_message_id=update.message.message_id)
 
 def translate(update,context):
   user = update.message.from_user.username
   try:
     translation_language = user_preference.get(user, "en")
   except:
-    context.bot.send_message(chat_id=update.effective_chat.id, text = "You have not set a language for translation")
+    context.bot.send_message(chat_id=update.effective_chat.id, text = "You have not set a language for translation", reply_to_message_id=update.message.message_id)
     return
   msg = update.message.text
   msg = ''.join(msg.split(' ')[1:])
   if len(msg) == 0:
-    context.bot.send_message(chat_id = update.effective_chat.id, text = "No valid placeholders. Please run the command again!!")
+    context.bot.send_message(chat_id = update.effective_chat.id, text = "No valid placeholders. Please run the command again!!", reply_to_message_id=update.message.message_id)
   else:
     msg = msg.strip().lower()
     translated = translator.translate(msg,dest = translation_language)
     send_message = "T: " + str(translated.text)
-    context.bot.send_message(chat_id=update.effective_chat.id, text = send_message)
+    context.bot.send_message(chat_id=update.effective_chat.id, text = send_message, reply_to_message_id=update.message.message_id)
 
 def translate_lang(update,context,lang):
   user = update.message.from_user.username
@@ -73,12 +73,12 @@ def translate_lang(update,context,lang):
   msg = update.message.text
   msg = ''.join(msg.split(' ')[1:])
   if len(msg) == 0:
-    context.bot.send_message(chat_id = update.effective_chat.id, text = "No valid placeholders. Please run the command again!!")
+    context.bot.send_message(chat_id = update.effective_chat.id, text = "No valid placeholders. Please run the command again!!", reply_to_message_id=update.message.message_id)
   else:
     msg = msg.strip().lower()
     translated = translator.translate(msg,dest = translation_language)
     send_message = lang + ": " + str(translated.text)
-    context.bot.send_message(chat_id=update.effective_chat.id, text = send_message)
+    context.bot.send_message(chat_id=update.effective_chat.id, text = send_message, reply_to_message_id=update.message.message_id)
 
 def translate_en(update,context):
   return translate_lang(update,context,"en")
@@ -91,20 +91,20 @@ def translate_ru(update,context):
 
 def unknown(update, context):
   send_message = "Basic help: /t - transalte, /en - eng, /th - thai, /ru - ru. Example: /ru Hey"
-  context.bot.send_message(chat_id=update.effective_chat.id, text=send_message)
+  context.bot.send_message(chat_id=update.effective_chat.id, text=send_message, reply_to_message_id=update.message.message_id)
 
 def check_language(update,context):
 
     msg = update.message.text
     msg = ''.join(msg.split(' ')[1:])
     if len(msg) == 0:
-      context.bot.send_message(chat_id = update.effective_chat.id, text = "No valid placeholders. Please run the command again!!")
+      context.bot.send_message(chat_id = update.effective_chat.id, text = "No valid placeholders. Please run the command again!!", reply_to_message_id=update.message.message_id)
     else:
       msg = msg.strip()
       language = translator.detect(msg)
       lang_text = all_lang[language.lang.lower()]
       send_message = "Detected language: " + str(lang_text.upper()) + " Confidence: " + str(language.confidence)
-      context.bot.send_message(chat_id = update.effective_chat.id, text = send_message)
+      context.bot.send_message(chat_id = update.effective_chat.id, text = send_message, reply_to_message_id=update.message.message_id)
 
 def main():
   bot_token = os.getenv('BOT_TOKEN')
